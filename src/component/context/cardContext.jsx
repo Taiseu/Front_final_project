@@ -1,10 +1,10 @@
-import { createContext, useContext, useMemo, useState } from 'react'
-
-const CardContext = createContext(null)
+import { useMemo, useState } from 'react'
+import CardContext from './cardContextValue'
 
 export function CardProvider({ children }) {
 	const [cartItems, setCartItems] = useState([])
 	const [searchTerm, setSearchTerm] = useState('')
+	const [cartOpen, setCartOpen] = useState(false)
 
 	function addToCart(product) {
 		setCartItems((currentItems) => {
@@ -20,24 +20,18 @@ export function CardProvider({ children }) {
 		})
 	}
 
+	function removeFromCart(productName) {
+		setCartItems((currentItems) => currentItems.filter((item) => item.name !== productName))
+	}
+
 	const cartCount = useMemo(
 		() => cartItems.reduce((total, item) => total + item.quantity, 0),
 		[cartItems],
 	)
 
 	return (
-		<CardContext.Provider value={{ addToCart, cartCount, cartItems, searchTerm, setSearchTerm }}>
+		<CardContext.Provider value={{ addToCart, cartCount, cartItems, cartOpen, removeFromCart, searchTerm, setCartOpen, setSearchTerm }}>
 			{children}
 		</CardContext.Provider>
 	)
-}
-
-export function useCard() {
-	const context = useContext(CardContext)
-
-	if (!context) {
-		throw new Error('useCard must be used inside CardProvider')
-	}
-
-	return context
 }
