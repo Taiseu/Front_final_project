@@ -1,4 +1,5 @@
 import { homePageData } from '../data/productdata'
+import logoImage from './ChatGPT Image Aug 7, 2026, 03_22_24 PM.png'
 
 const { footer } = homePageData
 
@@ -7,11 +8,13 @@ function FooterPage() {
     <footer className="mt-16 border-t border-white/10 bg-slate-950 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-6 text-sm text-slate-400 md:grid-cols-3">
         <div>
-          <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-[0.12em] text-white">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-amber-300 to-orange-500 font-black text-slate-950">
-              L
-            </span>
-            LensAura
+          <div className="flex items-center gap-3 text-sm font-bold uppercase  text-white">
+            <img
+              src={logoImage}
+              alt="Astra Camera logo"
+              className="h-11 w-11 rounded-xl bg-white object-contain p-0.5 ring-1 ring-white/20"
+            />
+            Astra Camera
           </div>
           <p className="mt-3 max-w-xs leading-7 text-slate-400">Premium imaging gear for creators who want sharp detail and powerful storytelling.</p>
         </div>
@@ -20,7 +23,7 @@ function FooterPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">Explore</p>
           <div className="mt-4 flex flex-col gap-3">
             {footer.links.map((link) => (
-              <a href="#" key={link} className="transition hover:text-white">
+              <a href="https://www.instagram.com/chasinxie.s/" key={link} className="transition hover:text-white">
                 {link}
               </a>
             ))}
@@ -30,8 +33,8 @@ function FooterPage() {
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">Support</p>
           <div className="mt-4 space-y-3">
-            <p>hello@lensaura.com</p>
-            <p>+1 (800) 555-0198</p>
+            <p>welcometo@astracamera.com</p>
+            <p>+855 16 986 573</p>
           </div>
         </div>
       </div>

@@ -7,6 +7,10 @@ function CartPage({ onClose }) {
 		return sum + price * item.quantity
 	}, 0)
 
+	function handleCheckout() {
+		window.alert(`Checkout started. Your order total is $${total.toLocaleString()}.`)
+	}
+
 	return (
 		<main className="mx-auto min-h-[60vh] max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
 			<div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -22,7 +26,7 @@ function CartPage({ onClose }) {
 			</div>
 
 			{cartItems.length === 0 ? (
-				<div className="mt-10 rounded-[1.8rem] border border-dashed border-white/15 bg-white/[0.03] p-10 text-center">
+				<div className="mt-10 rounded-[1.8rem] border border-dashed border-white/15 bg-white/3 p-10 text-center">
 					<p className="text-lg font-semibold text-white">Your cart is empty.</p>
 					<p className="mt-2 text-sm text-slate-400">Add a camera from the shop to see it here.</p>
 				</div>
@@ -30,7 +34,7 @@ function CartPage({ onClose }) {
 				<div className="mt-10 grid gap-6 lg:grid-cols-[1fr_320px]">
 					<div className="space-y-3">
 						{cartItems.map((item) => (
-							<article key={item.name} className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+							<article key={item.name} className="flex gap-4 rounded-2xl border border-white/10 bg-white/4 p-4">
 								<img src={item.image} alt={item.name} className="h-24 w-24 rounded-xl object-cover" />
 								<div className="min-w-0 flex-1">
 									<div className="flex items-start justify-between gap-3">
@@ -51,7 +55,7 @@ function CartPage({ onClose }) {
 						))}
 					</div>
 
-					<aside className="h-fit rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5">
+					<aside className="h-fit rounded-[1.6rem] border border-white/10 bg-white/4 p-5">
 						<p className="text-xs uppercase tracking-[0.18em] text-slate-400">Order summary</p>
 						<div className="mt-5 flex items-center justify-between text-sm text-slate-300">
 							<span>Items</span>
@@ -66,7 +70,7 @@ function CartPage({ onClose }) {
 							<span className="font-semibold text-white">Total</span>
 							<span className="text-2xl font-bold text-white">${total.toLocaleString()}</span>
 						</div>
-						<button className="mt-6 w-full rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200" type="button">
+						<button className="mt-6 w-full rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200" onClick={handleCheckout} type="button">
 							Checkout
 						</button>
 					</aside>

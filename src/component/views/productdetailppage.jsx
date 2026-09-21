@@ -1,6 +1,7 @@
 import { useCard } from '../context/useCard'
+import { homePageData } from '../data/productdata'
 
-function ProductDetailPage({ product, onClose, onAddToCart }) {
+function ProductDetailPage({ product, onClose, onAddToCart, onSelectProduct }) {
 	const { addToCart } = useCard()
 
 	if (!product) {
@@ -12,24 +13,35 @@ function ProductDetailPage({ product, onClose, onAddToCart }) {
 		Cinema: 'A production-ready camera built for cinematic video, dependable color, and long shooting days.',
 		Travel: 'A lightweight camera designed to keep your best moments sharp wherever your next trip takes you.',
 	}
+	const recommendedProducts = homePageData.showcase
+		.filter((item) => item.name !== product.name && item.type === product.type)
+		.slice(0, 3)
 
 	return (
-		<section className="mb-10 overflow-hidden rounded-[2rem] border border-amber-300/20 bg-slate-900 shadow-[0_24px_70px_rgba(0,0,0,0.35)]" aria-label={`${product.name} details`}>
-			<div className="grid md:grid-cols-[0.9fr_1.1fr]">
-				<div className="relative min-h-72">
-					<img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" />
-					<div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+		<div className="mb-10">
+			<section className="overflow-hidden rounded-[1.6rem] border border-white/10 bg-slate-900 shadow-[0_24px_70px_rgba(0,0,0,0.35)]" aria-label={`${product.name} details`}>
+				<div className="grid md:grid-cols-[1.05fr_0.95fr]">
+				<div className="relative min-h-[28rem] md:min-h-[34rem]">
+					<img
+						src={product.image}
+						alt={product.name}
+						onError={(event) => {
+							event.currentTarget.src = 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=80'
+						}}
+						className="absolute inset-0 h-full w-full object-cover"
+					/>
+					<div className="absolute inset-0 bg-linear-to-t from-slate-950/80 to-transparent" />
 					<span className="absolute bottom-5 left-5 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-xs uppercase tracking-[0.18em] text-amber-200 backdrop-blur-sm">
 						{product.type}
 					</span>
 				</div>
 
-				<div className="p-6 sm:p-8">
+				<div className="p-7 sm:p-10 lg:p-12">
 					<div className="flex items-start justify-between gap-4">
 						<div>
 							<p className="text-xs font-medium uppercase tracking-[0.2em] text-amber-200">Product details</p>
 							{product.brand && <p className="mt-2 text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">{product.brand}</p>}
-							<h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-white sm:text-4xl">{product.name}</h2>
+							<h2 className="mt-3 text-4xl font-black text-white sm:text-5xl">{product.name}</h2>
 						</div>
 						<button
 							className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-lg text-slate-300 transition hover:bg-white/10 hover:text-white"
@@ -42,7 +54,7 @@ function ProductDetailPage({ product, onClose, onAddToCart }) {
 						</button>
 					</div>
 
-					<p className="mt-5 leading-7 text-slate-300">{typeDetails[product.type]}</p>
+					<p className="mt-6 text-lg leading-8 text-slate-300">{typeDetails[product.type]}</p>
 
 					<div className="mt-6 grid gap-3 sm:grid-cols-3">
 						<div className="rounded-xl border border-white/10 bg-white/5 p-3">
@@ -59,8 +71,8 @@ function ProductDetailPage({ product, onClose, onAddToCart }) {
 						</div>
 					</div>
 
-					<div className="mt-7 flex flex-wrap items-center justify-between gap-4">
-						<p className="text-3xl font-bold text-white">{product.price}</p>
+					<div className="mt-9 flex flex-wrap items-center justify-between gap-4">
+						<p className="text-4xl font-bold text-white">{product.price}</p>
 						<button
 							className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
 							onClick={() => (onAddToCart || addToCart)(product)}
@@ -70,8 +82,63 @@ function ProductDetailPage({ product, onClose, onAddToCart }) {
 						</button>
 					</div>
 				</div>
-			</div>
-		</section>
+				</div>
+			</section>
+
+			{recommendedProducts.length > 0 && (
+				<section className="mt-10" aria-labelledby="recommended-products-title">
+					<div className="mb-5 flex items-end justify-between gap-4">
+						<div>
+							<p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-200">You may also like</p>
+							<h2 id="recommended-products-title" className="mt-2 text-3xl font-black text-white sm:text-4xl">Recommended for you</h2>
+						</div>
+					</div>
+
+					<div className="grid gap-5 md:grid-cols-3">
+						{recommendedProducts.map((recommendedProduct) => (
+							<article
+								key={recommendedProduct.name}
+								className="cursor-pointer overflow-hidden rounded-[1.4rem] border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-white/20"
+								onClick={() => onSelectProduct?.(recommendedProduct)}
+								onKeyDown={(event) => {
+									if (event.key === 'Enter' || event.key === ' ') {
+										event.preventDefault()
+										onSelectProduct?.(recommendedProduct)
+									}
+								}}
+								role="button"
+								tabIndex="0"
+							>
+								<div className="h-52 overflow-hidden bg-slate-800">
+									<img
+										src={recommendedProduct.image}
+										alt={recommendedProduct.name}
+										className="h-full w-full object-cover transition duration-500 hover:scale-105"
+									/>
+								</div>
+								<div className="p-5">
+									<p className="text-xs uppercase tracking-[0.16em] text-amber-200">{recommendedProduct.type}</p>
+									<div className="mt-2 flex items-start justify-between gap-3">
+										<h3 className="text-xl font-bold text-white">{recommendedProduct.name}</h3>
+										<p className="shrink-0 text-lg font-bold text-white">{recommendedProduct.price}</p>
+									</div>
+									<button
+										className="mt-5 w-full rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+										onClick={(event) => {
+											event.stopPropagation()
+											addToCart(recommendedProduct)
+										}}
+										type="button"
+									>
+										Add to cart
+									</button>
+								</div>
+							</article>
+						))}
+					</div>
+				</section>
+			)}
+		</div>
 	)
 }
 

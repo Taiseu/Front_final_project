@@ -16,7 +16,7 @@ function AboutPage() {
             </h1>
           </div>
           <p className="max-w-xl text-base leading-8 text-slate-300 lg:justify-self-end lg:text-lg">
-            LensAura was created for photographers, filmmakers, and curious people who believe the best gear should feel powerful, intuitive, and ready for the moment before it arrives.
+            Astra Camera was created for photographers, filmmakers, and curious people who believe the best gear should feel powerful, intuitive, and ready for the moment before it arrives.
           </p>
         </div>
 
@@ -25,11 +25,11 @@ function AboutPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-200">Our approach</p>
             <h2 className="mt-4 text-3xl font-bold tracking-[-0.05em] text-white">Designed around the person behind the camera.</h2>
             <p className="mt-5 max-w-2xl leading-8 text-slate-300">
-              From balanced bodies to responsive autofocus, every LensAura detail is shaped around real creative work. We combine thoughtful engineering with cinematic image quality so your attention stays on light, people, and place.
+              From balanced bodies to responsive autofocus, every Astra Camera detail is shaped around real creative work. We combine thoughtful engineering with cinematic image quality so your attention stays on light, people, and place.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {['Creator first', 'Built to last', 'Always curious'].map((value) => (
-                <div key={value} className="border-l-2 border-amber-300 pl-3">
+                <div key={value} className="border-l border-white/15 pl-3">
                   <p className="text-sm font-semibold text-white">{value}</p>
                   <p className="mt-1 text-xs leading-5 text-slate-400">A principle in every frame.</p>
                 </div>
