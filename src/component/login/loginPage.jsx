@@ -1,11 +1,12 @@
 import { useState } from 'react'
 
-function LoginPage({ onBack, onRegister }) {
+function LoginPage({ onBack, onRegister, onSuccess }) {
   const [submitted, setSubmitted] = useState(false)
 
   function handleSubmit(event) {
     event.preventDefault()
     setSubmitted(true)
+    onSuccess()
   }
 
   return (

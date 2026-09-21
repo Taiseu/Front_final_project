@@ -62,7 +62,7 @@ function AppContent() {
         ) : activePage === 'contact' ? (
           <ContactHomepage />
         ) : activePage === 'login' ? (
-          <LoginPage onBack={() => setActivePage('home')} onRegister={() => setActivePage('register')} />
+          <LoginPage onBack={() => setActivePage('home')} onRegister={() => setActivePage('register')} onSuccess={() => setActivePage('home')} />
         ) : activePage === 'register' ? (
           <RegisterPage onBack={() => setActivePage('home')} onLogin={() => setActivePage('login')} />
         ) : activePage === 'shop' ? (
