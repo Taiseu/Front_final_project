@@ -1,14 +1,18 @@
+import { useState } from 'react'
 import { useCard } from '../context/useCard'
 
 function CartPage({ onClose }) {
 	const { cartItems, removeFromCart } = useCard()
+	const [checkoutOpen, setCheckoutOpen] = useState(false)
+	const [orderPlaced, setOrderPlaced] = useState(false)
 	const total = cartItems.reduce((sum, item) => {
 		const price = Number(item.price.replace(/[^0-9.]/g, ''))
 		return sum + price * item.quantity
 	}, 0)
 
-	function handleCheckout() {
-		window.alert(`Checkout started. Your order total is $${total.toLocaleString()}.`)
+	function handleCheckout(event) {
+		event.preventDefault()
+		setOrderPlaced(true)
 	}
 
 	return (
@@ -70,11 +74,63 @@ function CartPage({ onClose }) {
 							<span className="font-semibold text-white">Total</span>
 							<span className="text-2xl font-bold text-white">${total.toLocaleString()}</span>
 						</div>
-						<button className="mt-6 w-full rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200" onClick={handleCheckout} type="button">
+						<button className="mt-6 w-full rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200" onClick={() => setCheckoutOpen(true)} type="button">
 							Checkout
 						</button>
 					</aside>
 				</div>
+			)}
+
+			{checkoutOpen && cartItems.length > 0 && (
+				<section className="mt-8 rounded-[1.6rem] border border-amber-200/20 bg-slate-900/80 p-5 sm:p-8" aria-labelledby="checkout-title">
+					{orderPlaced ? (
+						<div className="py-8 text-center">
+							<div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400/15 text-2xl text-emerald-300" aria-hidden="true">✓</div>
+							<h2 className="mt-5 text-2xl font-bold text-white">Order received</h2>
+							<p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-400">Thanks for your order. We will send a confirmation and delivery updates to your email shortly.</p>
+							<p className="mt-5 font-semibold text-amber-200">Total paid: ${total.toLocaleString()}</p>
+						</div>
+					) : (
+						<>
+							<div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+								<div>
+									<p className="text-xs uppercase tracking-[0.18em] text-amber-200">Secure checkout</p>
+									<h2 id="checkout-title" className="mt-2 text-2xl font-bold text-white">Where should we send your order?</h2>
+									<p className="mt-2 text-sm text-slate-400">Complete your details and we will prepare your camera kit.</p>
+								</div>
+								<button className="self-start text-sm text-slate-400 transition hover:text-white" onClick={() => setCheckoutOpen(false)} type="button">Close</button>
+							</div>
+
+							<form className="mt-8 grid gap-5 md:grid-cols-2" onSubmit={handleCheckout}>
+								<label className="block text-sm text-slate-300">Full name
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" name="name" placeholder="Alex Morgan" required type="text" />
+								</label>
+								<label className="block text-sm text-slate-300">Email address
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" name="email" placeholder="alex@example.com" required type="email" />
+								</label>
+								<label className="block text-sm text-slate-300 md:col-span-2">Street address
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" name="address" placeholder="123 Market Street" required type="text" />
+								</label>
+								<label className="block text-sm text-slate-300">City
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" name="city" placeholder="San Francisco" required type="text" />
+								</label>
+								<label className="block text-sm text-slate-300">Postal code
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" name="postalCode" placeholder="94105" required type="text" />
+								</label>
+								<label className="block text-sm text-slate-300">Card number
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" inputMode="numeric" name="cardNumber" placeholder="4242 4242 4242 4242" required type="text" />
+								</label>
+								<label className="block text-sm text-slate-300">Expiration date
+									<input className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-200/60" name="expiration" placeholder="MM / YY" required type="text" />
+								</label>
+								<div className="flex flex-col gap-4 border-t border-white/10 pt-5 md:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+									<p className="text-xs leading-5 text-slate-500">Your payment details are encrypted and used only to process this order.</p>
+									<button className="rounded-full bg-amber-200 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-100" type="submit">Place order · ${total.toLocaleString()}</button>
+								</div>
+							</form>
+						</>
+					)}
+				</section>
 			)}
 		</main>
 	)

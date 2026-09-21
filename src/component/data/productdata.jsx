@@ -222,7 +222,7 @@ export const homePageData = {
       name: 'X-H2S',
       type: 'Cinema',
       price: '$2,499',
-      image: 'https://loremflickr.com/900/700/camera?lock=21',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/6/61/Leica_V-Lux_5.jpg',
     },
     {
       brand: 'Leica',
